@@ -10,6 +10,30 @@ function Home() {
   const [likedMovies, setLikedMovies] = useState([]);
   const [movieList, setMovieList] = useState([])
 
+  // Movies list
+  useEffect(()=>{
+    fetch('https://mymoviz-backend-five-sepia.vercel.app/movies')
+    .then(response => response.json())
+    .then(data => {
+      if (!data.movies) {
+        return console.log("Error")
+      }
+      const list = []
+
+      for (let i=0;i<data.movies.length;i++){
+        list.push({
+          title: data.movies[i].title,
+          poster: `https://image.tmdb.org/t/p/w500/${data.movies[i].poster_path}`, 
+          voteAverage: data.movies[i].vote_average, 
+          voteCount: data.movies[i].vote_count, 
+          overview: `${data.movies[i].overview.substring(0,250)}...`
+        })
+      }
+      
+      setMovieList(list)
+    })
+  },[])
+
   // Liked movies (inverse data flow)
   const updateLikedMovies = (movieTitle) => {
     if (likedMovies.find(movie => movie === movieTitle)) {
@@ -18,8 +42,6 @@ function Home() {
       setLikedMovies([...likedMovies, movieTitle]);
     }
   };
-
-
 
   const likedMoviesPopover = likedMovies.map((data, i) => {
     return (
@@ -35,31 +57,6 @@ function Home() {
       {likedMoviesPopover}
     </div>
   );
-
-  // Movies list
-  useEffect(()=>{
-    fetch('https://mymoviz-backend-five-sepia.vercel.app/movies')
-    .then(response => response.json())
-    .then(data => {
-      // console.log(data.movies.results[0].title) //affiche le titre du 1er film
-      // console.log(data.movies.results[0].vote_average)
-      // console.log(data.movies.results[0].vote_count)
-      // console.log(data.movies.results[0].poster_path)
-      // console.log(data.movies.results[0].overview)
-      const list = []
-
-      for (let i=0;i<data.movies.length;i++){
-        list.push({
-          title: data.movies[i].title,
-          poster: `https://image.tmdb.org/t/p/w500/${data.movies[i].poster_path}`, 
-          voteAverage: data.movies[i].vote_average, 
-          voteCount: data.movies[i].vote_count, 
-          overview: `${data.movies[i].overview.substring(0,250)}...`
-        })
-      }
-      setMovieList(list)
-    })
-  },[])
 
   const movies = movieList.map((data, i) => {
     const isLiked = likedMovies.some(movie => movie === data.title);
