@@ -19,6 +19,8 @@ function Home() {
     }
   };
 
+  
+
   const likedMoviesPopover = likedMovies.map((data, i) => {
     return (
       <div key={i} className={styles.likedMoviesContainer}>
