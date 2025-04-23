@@ -19,7 +19,7 @@ function Home() {
     }
   };
 
-  
+
 
   const likedMoviesPopover = likedMovies.map((data, i) => {
     return (
@@ -38,7 +38,6 @@ function Home() {
 
   // Movies list
   useEffect(()=>{
-    const list = []
     fetch('https://mymoviz-backend-five-sepia.vercel.app/movies')
     .then(response => response.json())
     .then(data => {
@@ -47,6 +46,7 @@ function Home() {
       // console.log(data.movies.results[0].vote_count)
       // console.log(data.movies.results[0].poster_path)
       // console.log(data.movies.results[0].overview)
+      const list = []
 
       for (let i=0;i<data.movies.length;i++){
         list.push({
@@ -57,7 +57,7 @@ function Home() {
           overview: `${data.movies[i].overview.substring(0,250)}...`
         })
       }
-setMovieList(list)
+      setMovieList(list)
     })
   },[])
 
