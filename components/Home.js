@@ -37,7 +37,7 @@ function Home() {
   // Movies list
   useEffect(()=>{
     const list = []
-    fetch('http://localhost:3000/movies')
+    fetch('https://mymoviz-backend-five-sepia.vercel.app/movies')
     .then(response => response.json())
     .then(data => {
       // console.log(data.movies.results[0].title) //affiche le titre du 1er film
